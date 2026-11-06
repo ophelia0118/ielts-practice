@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0c0e12">
+<title>雅思 AWL 背词</title>
+<style>
+:root {
+  --bg: #0c0e12;
+  --bg2: #12151c;
+  --surface: #181c25;
+  --surface2: #1f2430;
+  --line: rgba(255,255,255,.08);
+  --text: #f4f6fa;
+  --muted: #8b93a7;
+  --accent: #7aa2ff;
+  --accent-soft: rgba(122,162,255,.16);
+  --good: #3ecf8e;
+  --good-soft: rgba(62,207,142,.14);
+  --bad: #ff6b81;
+  --bad-soft: rgba(255,107,129,.14);
+  --warn: #f0c14d;
+  --radius: 20px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --shadow: 0 18px 50px rgba(0,0,0,.45);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0; min-height: 100%; background:
+    radial-gradient(1200px 600px at 50% -10%, #1a2240 0%, transparent 55%),
+    var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+}
+body {
+  display: flex; flex-direction: column; max-width: 440px; margin: 0 auto;
+  min-height: 100vh; min-height: 100dvh; padding: 0 0 calc(10px + var(--safe-b));
+}
+#boot {
+  margin: 14px 16px 0; padding: 14px 16px; border-radius: 14px;
+  background: rgba(240,193,77,.1); border: 1px solid rgba(240,193,77,.28);
+  color: #f3d98a; font-size: 13px; line-height: 1.55;
+}
+#boot strong { color: #ffe9a8; }
+header {
+  padding: 18px 18px 10px; display: flex; flex-direction: column; gap: 12px;
+}
+.toprow { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+header h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -.02em; }
+header .sub { font-size: 12px; color: var(--muted); }
+#deck {
+  width: 100%; appearance: none; -webkit-appearance: none;
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238b93a7' d='M1 1l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;
+  color: var(--text); border: 1px solid var(--line); border-radius: 14px;
+  padding: 13px 40px 13px 14px; font-size: 14px; font-weight: 600;
+}
+.tabs {
+  display: flex; gap: 6px; margin: 0 18px 12px; padding: 4px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+}
+.tabs button {
+  flex: 1; border: 0; background: transparent; color: var(--muted);
+  border-radius: 999px; padding: 10px 0; font-size: 13px; font-weight: 650;
+  transition: .15s ease; touch-action: manipulation;
+}
+.tabs button.on { background: var(--accent-soft); color: #d7e4ff; }
+main { flex: 1; padding: 0 18px; display: flex; flex-direction: column; gap: 14px; }
+.meta {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: var(--muted); padding: 0 2px;
+}
+.meta .chip {
+  background: var(--surface2); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 10px; font-variant-numeric: tabular-nums;
+}
+.progress { height: 5px; background: rgba(255,255,255,.06); border-radius: 99px; overflow: hidden; }
+.progress > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg,#6b8cff,#9ec0ff); transition: width .25s ease; }
+
+.card-wrap { flex: 1; display: flex; min-height: 300px; }
+.card {
+  flex: 1; border-radius: var(--radius);
+  background: linear-gradient(165deg, #1d2330 0%, #141821 100%);
+  border: 1px solid var(--line); padding: 32px 24px; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; text-align: center; gap: 14px;
+  box-shadow: var(--shadow); cursor: pointer; user-select: none; touch-action: manipulation;
+  transition: transform .12s ease, border-color .15s;
+}
+.card:active { transform: scale(.985); }
+.card .badge {
+  font-size: 11px; font-weight: 700; color: var(--warn); letter-spacing: .06em;
+  min-height: 16px; text-transform: uppercase;
+}
+.word-row {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  flex-wrap: wrap; max-width: 100%;
+}
+.card .word {
+  font-size: clamp(30px, 8vw, 40px); font-weight: 750; letter-spacing: -.03em;
+  line-height: 1.15; word-break: break-word;
+}
+.say {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 999px;
+  border: 1px solid var(--line); background: var(--accent-soft);
+  color: #d7e4ff; display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; touch-action: manipulation; padding: 0;
+  transition: transform .12s ease, border-color .15s, background .15s;
+}
+.say:active { transform: scale(.94); }
+.say svg { width: 18px; height: 18px; display: block; pointer-events: none; }
+.quiz-prompt.word-row .word,
+.quiz-prompt .word {
+  font-size: clamp(26px, 7vw, 34px); font-weight: 750; letter-spacing: -.03em;
+  line-height: 1.15; word-break: break-word;
+}
+.card .zh { font-size: 20px; color: #eef1f7; font-weight: 550; }
+.card .syn {
+  font-size: 15px; color: #a8c4ff; line-height: 1.55; max-width: 94%;
+  padding: 10px 14px; border-radius: 12px; background: var(--accent-soft);
+}
+.card .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.actions {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+}
+.actions button, .solo-actions button {
+  border: 0; border-radius: 14px; padding: 15px 8px; font-weight: 700; font-size: 14px;
+  color: #0b1220; touch-action: manipulation;
+}
+.btn-bad { background: var(--bad); }
+.btn-mid { background: var(--warn); }
+.btn-good { background: var(--good); }
+.btn-sec, .solo-actions .btn-sec {
+  background: var(--surface2); color: var(--text); border: 1px solid var(--line) !important;
+}
+.actions .btn-sec { grid-column: 1 / -1; }
+.solo-actions { display: flex; flex-direction: column; gap: 10px; }
+
+.quiz-q { font-size: 13px; color: var(--muted); font-weight: 600; letter-spacing: .02em; }
+.quiz-prompt {
+  font-size: clamp(26px, 7vw, 34px); font-weight: 750; text-align: center;
+  margin: 6px 0 2px; letter-spacing: -.03em;
+}
+.quiz-prompt.word-row {
+  font-size: inherit; /* size lives on .word inside */
+}
+.quiz-sub { text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 4px; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.options button {
+  text-align: left; background: var(--surface); border: 1px solid var(--line); color: var(--text);
+  border-radius: 14px; padding: 15px 16px; font-size: 15px; font-weight: 550;
+  touch-action: manipulation; transition: border-color .12s, background .12s;
+}
+.options button.ok { border-color: var(--good); background: var(--good-soft); }
+.options button.no { border-color: var(--bad); background: var(--bad-soft); }
+.options button:disabled { opacity: 1; }
+
+.explain {
+  border-radius: 14px; padding: 12px 14px; font-size: 13px; line-height: 1.55;
+  border: 1px solid var(--line); background: var(--surface);
+  color: var(--muted); min-height: 44px;
+}
+.explain.ok { border-color: rgba(62,207,142,.35); background: var(--good-soft); color: #b9f0d4; }
+.explain.no { border-color: rgba(255,107,129,.35); background: var(--bad-soft); color: #ffc2cb; }
+.explain strong { color: var(--text); font-weight: 700; }
+
+.done {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; text-align: center; padding: 28px 8px;
+}
+.done .emoji { font-size: 36px; }
+.done h2 { margin: 0; font-size: 24px; letter-spacing: -.02em; }
+.done p { color: var(--muted); margin: 0; font-size: 14px; }
+.done .stats {
+  display: flex; gap: 8px; margin-top: 4px;
+}
+.done .stats span {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 12px; font-size: 12px; color: var(--muted);
+}
+.done button {
+  margin-top: 8px; background: var(--accent); color: #0b1220; border: 0;
+  border-radius: 14px; padding: 14px 22px; font-weight: 700; width: 100%;
+  touch-action: manipulation;
+}
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="boot">
+  <strong>请用 Safari / Chrome 打开</strong>，不要只在聊天里点「预览」（预览无法点选）。下载后用浏览器打开即可。
+</div>
+<header>
+  <div class="toprow">
+    <h1>AWL 背词</h1>
+    <div class="sub">每天 30 词 · 同义替换</div>
+  </div>
+  <select id="deck" aria-label="词表"></select>
+</header>
+<div class="tabs">
+  <button type="button" data-mode="flash" class="on">翻卡片</button>
+  <button type="button" data-mode="en2zh">英→中</button>
+  <button type="button" data-mode="syn">同义替换</button>
+</div>
+<main id="app"></main>
+<script>
+const DECKS = [{"id": "awl-sublist1-day1", "label": "Sublist 1 · 第1–30词", "words": [{"n": "1", "w": "analyse", "zh": "分析", "syn": "examine · study", "hot": true}, {"n": "2", "w": "approach", "zh": "方法；接近", "syn": "method · way", "hot": true}, {"n": "3", "w": "area", "zh": "地区；领域", "syn": "region · field", "hot": false}, {"n": "4", "w": "assess", "zh": "评估", "syn": "evaluate · judge", "hot": true}, {"n": "5", "w": "assume", "zh": "假定；承担", "syn": "suppose · presume", "hot": false}, {"n": "6", "w": "authority", "zh": "权威；当局", "syn": "government · official body", "hot": false}, {"n": "7", "w": "available", "zh": "可获得的", "syn": "accessible · on offer", "hot": true}, {"n": "8", "w": "benefit", "zh": "好处；受益", "syn": "advantage · gain", "hot": true}, {"n": "9", "w": "concept", "zh": "概念", "syn": "idea · notion", "hot": false}, {"n": "10", "w": "consist (of)", "zh": "由……组成", "syn": "be made up of · comprise", "hot": false}, {"n": "11", "w": "constitute", "zh": "构成", "syn": "make up · form", "hot": false}, {"n": "12", "w": "context", "zh": "背景；语境", "syn": "background · setting", "hot": false}, {"n": "13", "w": "contract", "zh": "合同；收缩", "syn": "agreement · deal", "hot": false}, {"n": "14", "w": "create", "zh": "创造", "syn": "produce · make", "hot": false}, {"n": "15", "w": "data", "zh": "数据", "syn": "figures · information", "hot": false}, {"n": "16", "w": "define", "zh": "定义", "syn": "describe · specify", "hot": false}, {"n": "17", "w": "derive (from)", "zh": "源自", "syn": "come from · originate", "hot": true}, {"n": "18", "w": "distribute", "zh": "分配；分布", "syn": "spread · hand out", "hot": false}, {"n": "19", "w": "economy", "zh": "经济", "syn": "financial system", "hot": false}, {"n": "20", "w": "environment", "zh": "环境", "syn": "surroundings", "hot": false}, {"n": "21", "w": "establish", "zh": "建立；证实", "syn": "set up · found · prove", "hot": true}, {"n": "22", "w": "estimate", "zh": "估计", "syn": "approximate · roughly calculate", "hot": true}, {"n": "23", "w": "evident", "zh": "明显的", "syn": "clear · obvious", "hot": false}, {"n": "24", "w": "export", "zh": "出口", "syn": "sell abroad", "hot": false}, {"n": "25", "w": "factor", "zh": "因素", "syn": "cause · element", "hot": true}, {"n": "26", "w": "finance", "zh": "财务；资助", "syn": "fund · money", "hot": false}, {"n": "27", "w": "formula", "zh": "公式；方案", "syn": "method · recipe", "hot": false}, {"n": "28", "w": "function", "zh": "功能；运作", "syn": "role · purpose · work", "hot": true}, {"n": "29", "w": "identify", "zh": "识别", "syn": "recognise · spot", "hot": true}, {"n": "30", "w": "income", "zh": "收入", "syn": "earnings · salary", "hot": false}]}, {"id": "awl-sublist1-day2", "label": "Sublist 1 · 第31–60词", "words": [{"n": "31", "w": "indicate", "zh": "表明；指示", "syn": "show · suggest · point to", "hot": true}, {"n": "32", "w": "individual", "zh": "个人；个别的", "syn": "person · single · particular", "hot": true}, {"n": "33", "w": "interpret", "zh": "解释；口译", "syn": "explain · understand as", "hot": true}, {"n": "34", "w": "involve", "zh": "涉及；使参与", "syn": "include · entail · engage", "hot": true}, {"n": "35", "w": "issue", "zh": "问题；发行", "syn": "matter · problem · publish", "hot": true}, {"n": "36", "w": "labour", "zh": "劳动；劳工", "syn": "work · workforce", "hot": true}, {"n": "37", "w": "legal", "zh": "法律的；合法的", "syn": "lawful · relating to law", "hot": false}, {"n": "38", "w": "legislate", "zh": "立法", "syn": "make laws · enact", "hot": false}, {"n": "39", "w": "major", "zh": "主要的；专业", "syn": "main · important · specialised subject", "hot": true}, {"n": "40", "w": "method", "zh": "方法", "syn": "way · approach · technique", "hot": true}, {"n": "41", "w": "occur", "zh": "发生；出现", "syn": "happen · take place", "hot": true}, {"n": "42", "w": "percent", "zh": "百分之……", "syn": "per cent · %", "hot": false}, {"n": "43", "w": "period", "zh": "时期；句号", "syn": "time · era · span", "hot": true}, {"n": "44", "w": "policy", "zh": "政策", "syn": "plan · strategy · guideline", "hot": true}, {"n": "45", "w": "principle", "zh": "原则", "syn": "rule · belief · basis", "hot": true}, {"n": "46", "w": "proceed", "zh": "继续进行", "syn": "go on · continue · advance", "hot": false}, {"n": "47", "w": "process", "zh": "过程；加工", "syn": "procedure · method · treat", "hot": true}, {"n": "48", "w": "require", "zh": "需要；要求", "syn": "need · demand · call for", "hot": true}, {"n": "49", "w": "research", "zh": "研究", "syn": "study · investigation", "hot": true}, {"n": "50", "w": "respond", "zh": "回应", "syn": "reply · react · answer", "hot": true}, {"n": "51", "w": "role", "zh": "角色；作用", "syn": "part · function", "hot": true}, {"n": "52", "w": "section", "zh": "部分；章节", "syn": "part · segment · division", "hot": false}, {"n": "53", "w": "sector", "zh": "部门；领域", "syn": "area · branch · industry", "hot": true}, {"n": "54", "w": "significant", "zh": "重要的；显著的", "syn": "important · considerable · notable", "hot": true}, {"n": "55", "w": "similar", "zh": "相似的", "syn": "alike · comparable · like", "hot": true}, {"n": "56", "w": "source", "zh": "来源；源头", "syn": "origin · supply · reference", "hot": true}, {"n": "57", "w": "specific", "zh": "具体的；特定的", "syn": "particular · precise · definite", "hot": true}, {"n": "58", "w": "structure", "zh": "结构；组织", "syn": "framework · organisation · build", "hot": true}, {"n": "59", "w": "theory", "zh": "理论", "syn": "idea · hypothesis · model", "hot": true}, {"n": "60", "w": "vary", "zh": "变化；不同", "syn": "differ · change · range", "hot": true}]}, {"id": "awl-sublist2-day1", "label": "Sublist 2 · 第1–30词", "words": [{"n": "1", "w": "achieve", "zh": "实现；达到", "syn": "reach · accomplish · attain", "hot": true}, {"n": "2", "w": "acquisition", "zh": "获得；习得；收购", "syn": "obtaining · gaining · purchase", "hot": false}, {"n": "3", "w": "administration", "zh": "管理；行政；政府", "syn": "management · government", "hot": false}, {"n": "4", "w": "affect", "zh": "影响", "syn": "influence · have an impact on", "hot": true}, {"n": "5", "w": "appropriate", "zh": "合适的", "syn": "suitable · proper · fitting", "hot": true}, {"n": "6", "w": "aspect", "zh": "方面", "syn": "feature · side · element", "hot": true}, {"n": "7", "w": "assistance", "zh": "帮助；援助", "syn": "help · support · aid", "hot": false}, {"n": "8", "w": "category", "zh": "类别", "syn": "type · kind · class · group", "hot": false}, {"n": "9", "w": "chapter", "zh": "章节；阶段", "syn": "section · part · stage", "hot": false}, {"n": "10", "w": "commission", "zh": "委员会；委托", "syn": "committee · board · order", "hot": false}, {"n": "11", "w": "community", "zh": "社区；群体", "syn": "society · local people · group", "hot": true}, {"n": "12", "w": "complex", "zh": "复杂的；综合体", "syn": "complicated · intricate", "hot": true}, {"n": "13", "w": "computer", "zh": "电脑", "syn": "machine · device · PC", "hot": false}, {"n": "14", "w": "conclusion", "zh": "结论；结束", "syn": "result · finding · end", "hot": true}, {"n": "15", "w": "conduct", "zh": "实施；进行", "syn": "carry out · perform · do", "hot": true}, {"n": "16", "w": "consequence", "zh": "后果；结果", "syn": "result · outcome · effect", "hot": true}, {"n": "17", "w": "construction", "zh": "建造；建筑物", "syn": "building · structure", "hot": false}, {"n": "18", "w": "consumer", "zh": "消费者", "syn": "customer · buyer · user", "hot": true}, {"n": "19", "w": "credit", "zh": "信用；贷款；学分；功劳", "syn": "loan · recognition · praise", "hot": false}, {"n": "20", "w": "cultural", "zh": "文化的", "syn": "social · ethnic · artistic", "hot": false}, {"n": "21", "w": "design", "zh": "设计", "syn": "plan · layout · create", "hot": false}, {"n": "22", "w": "distinction", "zh": "区别；卓越", "syn": "difference · contrast · excellence", "hot": true}, {"n": "23", "w": "element", "zh": "要素；成分", "syn": "component · part · factor", "hot": true}, {"n": "24", "w": "equation", "zh": "方程；等式；平衡", "syn": "formula · balance", "hot": false}, {"n": "25", "w": "evaluation", "zh": "评估", "syn": "assessment · appraisal · review", "hot": true}, {"n": "26", "w": "feature", "zh": "特征；以…为特色", "syn": "characteristic · trait · aspect", "hot": true}, {"n": "27", "w": "final", "zh": "最终的", "syn": "last · ultimate · eventual", "hot": false}, {"n": "28", "w": "focus", "zh": "焦点；集中", "syn": "concentrate · centre · emphasis", "hot": false}, {"n": "29", "w": "impact", "zh": "影响；冲击", "syn": "effect · influence · affect", "hot": true}, {"n": "30", "w": "injury", "zh": "伤害", "syn": "harm · damage · wound", "hot": false}]}, {"id": "awl-sublist2-day2", "label": "Sublist 2 · 第31–60词", "words": [{"n": "31", "w": "institute", "zh": "机构；学院；建立", "syn": "organisation · establish · found", "hot": false}, {"n": "32", "w": "investment", "zh": "投资；投入", "syn": "funding · spending · capital", "hot": true}, {"n": "33", "w": "items", "zh": "项目；物品；条款", "syn": "objects · things · articles", "hot": false}, {"n": "34", "w": "journal", "zh": "期刊；日志", "syn": "periodical · publication · diary", "hot": false}, {"n": "35", "w": "maintenance", "zh": "维护；保养；维持", "syn": "upkeep · preservation · repair", "hot": false}, {"n": "36", "w": "normal", "zh": "正常的；标准的", "syn": "usual · typical · standard · regular", "hot": true}, {"n": "37", "w": "obtained", "zh": "获得", "syn": "gained · acquired · got · secured", "hot": true}, {"n": "38", "w": "participation", "zh": "参与", "syn": "involvement · engagement · taking part", "hot": true}, {"n": "39", "w": "perceived", "zh": "被认为的；察觉到的", "syn": "seen as · regarded · viewed · noticed", "hot": true}, {"n": "40", "w": "positive", "zh": "积极的；正面的；确定的", "syn": "beneficial · favourable · optimistic", "hot": true}, {"n": "41", "w": "potential", "zh": "潜在的；潜力", "syn": "possible · likely · capacity", "hot": true}, {"n": "42", "w": "previous", "zh": "以前的；先前的", "syn": "earlier · former · prior · past", "hot": true}, {"n": "43", "w": "primary", "zh": "主要的；首要的；初级的", "syn": "main · chief · principal · key", "hot": true}, {"n": "44", "w": "purchase", "zh": "购买", "syn": "buy · acquire · procure", "hot": true}, {"n": "45", "w": "range", "zh": "范围；一系列", "syn": "variety · scope · extent · spectrum", "hot": true}, {"n": "46", "w": "region", "zh": "地区；区域", "syn": "area · zone · district", "hot": true}, {"n": "47", "w": "regulations", "zh": "规章；法规", "syn": "rules · laws · restrictions", "hot": true}, {"n": "48", "w": "relevant", "zh": "相关的", "syn": "related · pertinent · applicable", "hot": true}, {"n": "49", "w": "resident", "zh": "居民", "syn": "inhabitant · local · dweller", "hot": false}, {"n": "50", "w": "resources", "zh": "资源", "syn": "supplies · assets · materials", "hot": true}, {"n": "51", "w": "restricted", "zh": "受限制的", "syn": "limited · controlled · confined", "hot": true}, {"n": "52", "w": "security", "zh": "安全；保障", "syn": "safety · protection", "hot": false}, {"n": "53", "w": "sought", "zh": "寻找；寻求（seek的过去式）", "syn": "looked for · pursued · tried to obtain", "hot": false}, {"n": "54", "w": "select", "zh": "选择", "syn": "choose · pick · opt for", "hot": true}, {"n": "55", "w": "site", "zh": "地点；场所；网站", "syn": "location · place · venue", "hot": false}, {"n": "56", "w": "strategies", "zh": "策略；战略", "syn": "plans · approaches · methods · tactics", "hot": true}, {"n": "57", "w": "survey", "zh": "调查；勘测", "syn": "study · poll · questionnaire · investigation", "hot": true}, {"n": "58", "w": "text", "zh": "文本；课文", "syn": "passage · writing · document", "hot": false}, {"n": "59", "w": "traditional", "zh": "传统的", "syn": "conventional · customary · long-established", "hot": true}, {"n": "60", "w": "transfer", "zh": "转移；调动", "syn": "move · shift · transport · relocate", "hot": false}]}, {"id": "awl-sublist3-day1", "label": "Sublist 3 · 第1–30词", "words": [{"n": "1", "w": "alternative", "zh": "替代的；替代方案", "syn": "option · substitute · other choice", "hot": true}, {"n": "2", "w": "circumstances", "zh": "情况；环境", "syn": "conditions · situation · context", "hot": false}, {"n": "3", "w": "comments", "zh": "评论；意见", "syn": "remarks · observations · feedback", "hot": false}, {"n": "4", "w": "compensation", "zh": "补偿；赔偿", "syn": "payment · reimbursement · reward", "hot": false}, {"n": "5", "w": "components", "zh": "组成部分；部件", "syn": "parts · elements · ingredients", "hot": true}, {"n": "6", "w": "consent", "zh": "同意；许可", "syn": "permission · approval · agreement", "hot": false}, {"n": "7", "w": "considerable", "zh": "相当大的", "syn": "significant · substantial · large", "hot": true}, {"n": "8", "w": "constant", "zh": "持续的；恒定的", "syn": "continuous · steady · unchanging", "hot": true}, {"n": "9", "w": "constraints", "zh": "限制；约束", "syn": "limits · restrictions · barriers", "hot": false}, {"n": "10", "w": "contribution", "zh": "贡献；捐款", "syn": "input · donation · role", "hot": true}, {"n": "11", "w": "convention", "zh": "惯例；大会；公约", "syn": "custom · tradition · conference", "hot": false}, {"n": "12", "w": "coordination", "zh": "协调", "syn": "cooperation · organisation · teamwork", "hot": false}, {"n": "13", "w": "core", "zh": "核心；核心的", "syn": "central · key · essential", "hot": true}, {"n": "14", "w": "corporate", "zh": "公司的；企业的", "syn": "company · business · commercial", "hot": false}, {"n": "15", "w": "corresponding", "zh": "相应的；对应的", "syn": "matching · equivalent · related", "hot": false}, {"n": "16", "w": "criteria", "zh": "标准（复数）", "syn": "standards · requirements · benchmarks", "hot": true}, {"n": "17", "w": "deduction", "zh": "推论；扣除", "syn": "conclusion · inference · subtraction", "hot": false}, {"n": "18", "w": "demonstrate", "zh": "证明；展示", "syn": "show · prove · illustrate", "hot": true}, {"n": "19", "w": "document", "zh": "文件；记录", "syn": "record · paper · file", "hot": false}, {"n": "20", "w": "dominant", "zh": "占主导的", "syn": "main · leading · prevailing", "hot": true}, {"n": "21", "w": "emphasis", "zh": "强调；重点", "syn": "focus · stress · priority", "hot": false}, {"n": "22", "w": "ensure", "zh": "确保", "syn": "make sure · guarantee · secure", "hot": true}, {"n": "23", "w": "excluded", "zh": "被排除的", "syn": "left out · omitted · banned", "hot": false}, {"n": "24", "w": "framework", "zh": "框架；体系", "syn": "structure · system · model", "hot": false}, {"n": "25", "w": "funds", "zh": "资金", "syn": "money · finance · budget", "hot": false}, {"n": "26", "w": "illustrated", "zh": "说明的；配图的", "syn": "shown · demonstrated · depicted", "hot": false}, {"n": "27", "w": "immigration", "zh": "移民（入境）", "syn": "migration · settlement · moving to a country", "hot": false}, {"n": "28", "w": "implies", "zh": "暗示；意味着", "syn": "suggests · indicates · hints", "hot": true}, {"n": "29", "w": "initial", "zh": "最初的", "syn": "first · early · original", "hot": true}, {"n": "30", "w": "instance", "zh": "例子；实例", "syn": "example · case · occurrence", "hot": false}]}, {"id": "awl-sublist3-day2", "label": "Sublist 3 · 第31–60词", "words": [{"n": "31", "w": "interaction", "zh": "互动；相互作用", "syn": "communication · exchange · contact", "hot": true}, {"n": "32", "w": "justification", "zh": "理由；正当性", "syn": "reason · grounds · rationale", "hot": false}, {"n": "33", "w": "layer", "zh": "层；层次", "syn": "level · stratum · coating", "hot": false}, {"n": "34", "w": "link", "zh": "联系；连接", "syn": "connection · relationship · association", "hot": true}, {"n": "35", "w": "location", "zh": "位置；地点", "syn": "site · place · position", "hot": true}, {"n": "36", "w": "maximum", "zh": "最大值；最大的", "syn": "highest · peak · greatest", "hot": false}, {"n": "37", "w": "minorities", "zh": "少数群体", "syn": "minority groups · small groups", "hot": false}, {"n": "38", "w": "negative", "zh": "负面的；消极的", "syn": "harmful · adverse · unfavourable", "hot": true}, {"n": "39", "w": "outcomes", "zh": "结果", "syn": "results · consequences · effects", "hot": true}, {"n": "40", "w": "partnership", "zh": "合作关系", "syn": "cooperation · collaboration · alliance", "hot": false}, {"n": "41", "w": "philosophy", "zh": "哲学；理念", "syn": "principles · beliefs · approach", "hot": false}, {"n": "42", "w": "physical", "zh": "身体的；物质的", "syn": "bodily · material · tangible", "hot": true}, {"n": "43", "w": "proportion", "zh": "比例；部分", "syn": "percentage · share · ratio", "hot": true}, {"n": "44", "w": "published", "zh": "出版；发表", "syn": "released · issued · printed", "hot": false}, {"n": "45", "w": "reaction", "zh": "反应", "syn": "response · reply · feedback", "hot": true}, {"n": "46", "w": "registered", "zh": "注册的；登记的", "syn": "enrolled · recorded · signed up", "hot": false}, {"n": "47", "w": "reliance", "zh": "依赖", "syn": "dependence · trust", "hot": false}, {"n": "48", "w": "removed", "zh": "移除；去掉", "syn": "eliminated · taken away · deleted", "hot": false}, {"n": "49", "w": "scheme", "zh": "计划；方案", "syn": "plan · programme · project", "hot": true}, {"n": "50", "w": "sequence", "zh": "顺序；序列", "syn": "order · series · succession", "hot": false}, {"n": "51", "w": "sex", "zh": "性别", "syn": "gender", "hot": false}, {"n": "52", "w": "shift", "zh": "转变；转移", "syn": "change · move · transition", "hot": true}, {"n": "53", "w": "specified", "zh": "具体指定的", "syn": "stated · defined · set out", "hot": false}, {"n": "54", "w": "sufficient", "zh": "足够的", "syn": "enough · adequate · ample", "hot": true}, {"n": "55", "w": "task", "zh": "任务", "syn": "job · assignment · duty", "hot": false}, {"n": "56", "w": "technical", "zh": "技术的", "syn": "technological · specialist · practical", "hot": false}, {"n": "57", "w": "techniques", "zh": "技巧；方法", "syn": "methods · approaches · skills", "hot": true}, {"n": "58", "w": "technology", "zh": "技术", "syn": "tech · innovation · equipment", "hot": false}, {"n": "59", "w": "validity", "zh": "有效性；正确性", "syn": "accuracy · soundness · legitimacy", "hot": false}, {"n": "60", "w": "volume", "zh": "量；体积；音量", "syn": "amount · quantity · capacity", "hot": true}]}, {"id": "awl-sublist4-day1", "label": "Sublist 4 · 第1–30词", "words": [{"n": "1", "w": "access", "zh": "获取；使用权", "syn": "entry · approach · obtain", "hot": true}, {"n": "2", "w": "adequate", "zh": "足够的；适当的", "syn": "sufficient · enough · satisfactory", "hot": true}, {"n": "3", "w": "annual", "zh": "每年的", "syn": "yearly · every year", "hot": false}, {"n": "4", "w": "apparent", "zh": "明显的；表面上的", "syn": "obvious · evident · seeming", "hot": true}, {"n": "5", "w": "approximate", "zh": "大约的", "syn": "rough · estimated · about", "hot": true}, {"n": "6", "w": "attitude", "zh": "态度", "syn": "view · opinion · outlook", "hot": true}, {"n": "7", "w": "attribute", "zh": "归因于；属性", "syn": "ascribe · credit · feature", "hot": true}, {"n": "8", "w": "civil", "zh": "公民的；民用的", "syn": "civic · public · non-military", "hot": false}, {"n": "9", "w": "code", "zh": "代码；准则", "syn": "rules · regulations · system", "hot": false}, {"n": "10", "w": "commit", "zh": "承诺；犯（错）", "syn": "pledge · devote · carry out", "hot": false}, {"n": "11", "w": "communicate", "zh": "交流；传达", "syn": "convey · exchange · express", "hot": true}, {"n": "12", "w": "concentrate", "zh": "集中；专注", "syn": "focus · centre on · gather", "hot": true}, {"n": "13", "w": "conference", "zh": "会议", "syn": "meeting · convention · summit", "hot": false}, {"n": "14", "w": "contrast", "zh": "对比；差异", "syn": "difference · compare · differ", "hot": true}, {"n": "15", "w": "cycle", "zh": "循环；周期", "syn": "circle · pattern · sequence", "hot": false}, {"n": "16", "w": "debate", "zh": "辩论；争论", "syn": "discussion · argument · dispute", "hot": true}, {"n": "17", "w": "despite", "zh": "尽管", "syn": "in spite of · although · even though", "hot": true}, {"n": "18", "w": "dimension", "zh": "维度；方面", "syn": "aspect · feature · size", "hot": false}, {"n": "19", "w": "domestic", "zh": "国内的；家庭的", "syn": "national · internal · household", "hot": true}, {"n": "20", "w": "emerge", "zh": "出现；显现", "syn": "appear · arise · come out", "hot": true}, {"n": "21", "w": "error", "zh": "错误", "syn": "mistake · fault · inaccuracy", "hot": false}, {"n": "22", "w": "ethnic", "zh": "种族的；民族的", "syn": "racial · cultural · national", "hot": false}, {"n": "23", "w": "goal", "zh": "目标", "syn": "aim · objective · target", "hot": true}, {"n": "24", "w": "grant", "zh": "授予；拨款", "syn": "give · award · funding", "hot": false}, {"n": "25", "w": "hence", "zh": "因此", "syn": "therefore · thus · as a result", "hot": true}, {"n": "26", "w": "hypothesis", "zh": "假设", "syn": "theory · assumption · proposition", "hot": true}, {"n": "27", "w": "implement", "zh": "实施；执行", "syn": "carry out · put into practice · apply", "hot": true}, {"n": "28", "w": "implicate", "zh": "牵涉；暗示", "syn": "involve · suggest · imply", "hot": false}, {"n": "29", "w": "impose", "zh": "强加；征收", "syn": "force · enforce · introduce (a tax)", "hot": true}, {"n": "30", "w": "integrate", "zh": "整合；融入", "syn": "combine · merge · incorporate", "hot": true}]}, {"id": "awl-sublist4-day2", "label": "Sublist 4 · 第31–60词", "words": [{"n": "31", "w": "internal", "zh": "内部的；国内的", "syn": "inner · domestic · inside", "hot": true}, {"n": "32", "w": "investigate", "zh": "调查；研究", "syn": "examine · look into · research", "hot": true}, {"n": "33", "w": "job", "zh": "工作；任务", "syn": "work · task · occupation", "hot": true}, {"n": "34", "w": "label", "zh": "标签；贴标签", "syn": "tag · classify · name", "hot": false}, {"n": "35", "w": "mechanism", "zh": "机制；结构", "syn": "process · system · device", "hot": true}, {"n": "36", "w": "obvious", "zh": "明显的", "syn": "clear · evident · apparent", "hot": true}, {"n": "37", "w": "occupy", "zh": "占据；占用", "syn": "take up · inhabit · fill", "hot": true}, {"n": "38", "w": "option", "zh": "选择；选项", "syn": "choice · alternative · possibility", "hot": true}, {"n": "39", "w": "output", "zh": "产出；输出", "syn": "production · yield · result", "hot": true}, {"n": "40", "w": "overall", "zh": "总体的；整体上", "syn": "general · total · as a whole", "hot": true}, {"n": "41", "w": "parallel", "zh": "平行的；类似的", "syn": "similar · comparable · side by side", "hot": false}, {"n": "42", "w": "parameter", "zh": "参数；界限", "syn": "limit · criterion · variable", "hot": true}, {"n": "43", "w": "phase", "zh": "阶段；时期", "syn": "stage · period · step", "hot": true}, {"n": "44", "w": "predict", "zh": "预测", "syn": "forecast · anticipate · expect", "hot": true}, {"n": "45", "w": "principal", "zh": "主要的；校长", "syn": "main · primary · chief", "hot": true}, {"n": "46", "w": "prior", "zh": "先前的；优先的", "syn": "previous · earlier · beforehand", "hot": true}, {"n": "47", "w": "professional", "zh": "专业的；职业的", "syn": "expert · skilled · occupational", "hot": true}, {"n": "48", "w": "project", "zh": "项目；预测", "syn": "scheme · venture · estimate", "hot": true}, {"n": "49", "w": "promote", "zh": "促进；晋升", "syn": "encourage · advance · foster", "hot": true}, {"n": "50", "w": "regime", "zh": "政权；制度", "syn": "government · system · rule", "hot": false}, {"n": "51", "w": "resolve", "zh": "解决；决心", "syn": "settle · solve · determine", "hot": true}, {"n": "52", "w": "retain", "zh": "保留；保持", "syn": "keep · maintain · hold", "hot": true}, {"n": "53", "w": "series", "zh": "系列；连续", "syn": "sequence · set · succession", "hot": true}, {"n": "54", "w": "statistic", "zh": "统计数据", "syn": "figure · data · number", "hot": true}, {"n": "55", "w": "status", "zh": "地位；状态", "syn": "position · standing · condition", "hot": true}, {"n": "56", "w": "stress", "zh": "压力；强调", "syn": "pressure · emphasize · tension", "hot": true}, {"n": "57", "w": "subsequent", "zh": "随后的", "syn": "following · later · next", "hot": true}, {"n": "58", "w": "sum", "zh": "总和；金额", "syn": "total · amount · add up", "hot": true}, {"n": "59", "w": "summary", "zh": "摘要；总结", "syn": "overview · outline · synopsis", "hot": true}, {"n": "60", "w": "undergo", "zh": "经历；承受", "syn": "experience · go through · endure", "hot": true}]}, {"id": "awl-sublist5-day1", "label": "Sublist 5 · 第1–30词", "words": [{"n": "1", "w": "academy", "zh": "学院；学术界", "syn": "college · institute · scholarly world", "hot": true}, {"n": "2", "w": "adjust", "zh": "调整；适应", "syn": "adapt · modify · regulate", "hot": true}, {"n": "3", "w": "alter", "zh": "改变；修改", "syn": "change · modify · revise", "hot": true}, {"n": "4", "w": "amend", "zh": "修正；改进", "syn": "revise · correct · improve", "hot": false}, {"n": "5", "w": "aware", "zh": "意识到的；知道的", "syn": "conscious · mindful · informed", "hot": true}, {"n": "6", "w": "capacity", "zh": "能力；容量", "syn": "ability · capability · volume", "hot": true}, {"n": "7", "w": "challenge", "zh": "挑战；质疑", "syn": "difficulty · question · confront", "hot": true}, {"n": "8", "w": "clause", "zh": "条款；（语法）从句", "syn": "provision · section · stipulation", "hot": false}, {"n": "9", "w": "compound", "zh": "化合物；复合的；加剧", "syn": "mixture · complex · worsen", "hot": false}, {"n": "10", "w": "conflict", "zh": "冲突；矛盾", "syn": "clash · dispute · disagreement", "hot": true}, {"n": "11", "w": "consult", "zh": "咨询；请教", "syn": "ask · seek advice · refer to", "hot": true}, {"n": "12", "w": "contact", "zh": "联系；接触", "syn": "get in touch · communicate · connection", "hot": true}, {"n": "13", "w": "decline", "zh": "下降；拒绝", "syn": "decrease · refuse · downturn", "hot": true}, {"n": "14", "w": "discrete", "zh": "离散的；分开的", "syn": "separate · distinct · individual", "hot": false}, {"n": "15", "w": "draft", "zh": "草稿；起草", "syn": "outline · sketch · draw up", "hot": true}, {"n": "16", "w": "enable", "zh": "使能够；使实现", "syn": "allow · make possible · facilitate", "hot": true}, {"n": "17", "w": "energy", "zh": "能量；精力", "syn": "power · vigour · force", "hot": true}, {"n": "18", "w": "enforce", "zh": "实施；强制执行", "syn": "implement · apply · impose", "hot": true}, {"n": "19", "w": "entity", "zh": "实体；独立存在物", "syn": "organisation · body · unit", "hot": false}, {"n": "20", "w": "equivalent", "zh": "等同的；等价物", "syn": "equal · corresponding · counterpart", "hot": true}, {"n": "21", "w": "evolve", "zh": "进化；逐步发展", "syn": "develop · progress · change gradually", "hot": true}, {"n": "22", "w": "expand", "zh": "扩大；扩展", "syn": "extend · enlarge · grow", "hot": true}, {"n": "23", "w": "expose", "zh": "暴露；揭露", "syn": "reveal · uncover · subject to", "hot": true}, {"n": "24", "w": "external", "zh": "外部的；外面的", "syn": "outside · outer · foreign", "hot": true}, {"n": "25", "w": "facilitate", "zh": "促进；使便利", "syn": "help · enable · make easier", "hot": true}, {"n": "26", "w": "fundamental", "zh": "基本的；根本的", "syn": "basic · essential · core", "hot": true}, {"n": "27", "w": "generate", "zh": "产生；生成", "syn": "produce · create · give rise to", "hot": true}, {"n": "28", "w": "generation", "zh": "一代；产生", "syn": "age group · production · creation", "hot": true}, {"n": "29", "w": "image", "zh": "形象；图像", "syn": "picture · impression · portrayal", "hot": true}, {"n": "30", "w": "liberal", "zh": "开明的；自由的；文科的", "syn": "open-minded · generous · arts-related", "hot": true}]}, {"id": "awl-sublist5-day2", "label": "Sublist 5 · 第31–60词", "words": [{"n": "31", "w": "licence", "zh": "执照；许可（美 license）", "syn": "permit · authorization · certificate", "hot": false}, {"n": "32", "w": "logic", "zh": "逻辑；条理", "syn": "reasoning · rationale · sense", "hot": true}, {"n": "33", "w": "margin", "zh": "边缘；利润；余地", "syn": "edge · profit · leeway", "hot": false}, {"n": "34", "w": "medical", "zh": "医学的；医疗的", "syn": "clinical · health-related · therapeutic", "hot": true}, {"n": "35", "w": "mental", "zh": "心理的；精神的", "syn": "psychological · intellectual · cognitive", "hot": true}, {"n": "36", "w": "modify", "zh": "修改；调整", "syn": "alter · adjust · change", "hot": true}, {"n": "37", "w": "monitor", "zh": "监控；监测", "syn": "observe · track · supervise", "hot": true}, {"n": "38", "w": "network", "zh": "网络；人际关系网", "syn": "system · web · connections", "hot": true}, {"n": "39", "w": "notion", "zh": "观念；想法", "syn": "idea · concept · belief", "hot": true}, {"n": "40", "w": "objective", "zh": "目标；客观的", "syn": "goal · aim · impartial", "hot": true}, {"n": "41", "w": "orient", "zh": "使适应；定位；朝向", "syn": "adapt · position · direct", "hot": false}, {"n": "42", "w": "perspective", "zh": "视角；观点", "syn": "viewpoint · angle · outlook", "hot": true}, {"n": "43", "w": "precise", "zh": "精确的；严谨的", "syn": "exact · accurate · specific", "hot": true}, {"n": "44", "w": "prime", "zh": "主要的；最初的；最佳的", "syn": "main · primary · principal", "hot": true}, {"n": "45", "w": "psychology", "zh": "心理学；心理", "syn": "mind study · mental processes · psyche", "hot": true}, {"n": "46", "w": "pursue", "zh": "追求；从事；追赶", "syn": "follow · seek · engage in", "hot": true}, {"n": "47", "w": "ratio", "zh": "比率；比例", "syn": "proportion · rate · percentage", "hot": true}, {"n": "48", "w": "reject", "zh": "拒绝；驳回", "syn": "refuse · turn down · dismiss", "hot": true}, {"n": "49", "w": "revenue", "zh": "收入；税收", "syn": "income · earnings · proceeds", "hot": true}, {"n": "50", "w": "stable", "zh": "稳定的；稳固的", "syn": "steady · secure · constant", "hot": true}, {"n": "51", "w": "style", "zh": "风格；样式", "syn": "manner · fashion · approach", "hot": true}, {"n": "52", "w": "substitute", "zh": "替代；代替品", "syn": "replace · alternative · stand-in", "hot": true}, {"n": "53", "w": "sustain", "zh": "维持；支撑；承受", "syn": "maintain · support · keep up", "hot": true}, {"n": "54", "w": "symbol", "zh": "象征；符号", "syn": "sign · emblem · representation", "hot": true}, {"n": "55", "w": "target", "zh": "目标；靶子；针对", "syn": "aim · goal · objective", "hot": true}, {"n": "56", "w": "transit", "zh": "通行；运输；过境", "syn": "transport · passage · travel", "hot": false}, {"n": "57", "w": "trend", "zh": "趋势；动向", "syn": "tendency · pattern · fashion", "hot": true}, {"n": "58", "w": "version", "zh": "版本；说法", "syn": "edition · form · account", "hot": true}, {"n": "59", "w": "welfare", "zh": "福利；福祉", "syn": "well-being · benefits · social support", "hot": true}, {"n": "60", "w": "whereas", "zh": "然而；鉴于；而", "syn": "while · although · but by contrast", "hot": true}]}, {"id": "awl-sublist6-day1", "label": "Sublist 6 · 第1–30词", "words": [{"n": "1", "w": "abstract", "zh": "抽象的；摘要", "syn": "theoretical · summary · extract", "hot": true}, {"n": "2", "w": "accurate", "zh": "准确的；精确的", "syn": "precise · exact · correct", "hot": true}, {"n": "3", "w": "acknowledge", "zh": "承认；致谢", "syn": "admit · recognize · thank", "hot": true}, {"n": "4", "w": "aggregate", "zh": "总计；聚合", "syn": "total · combine · sum", "hot": true}, {"n": "5", "w": "allocate", "zh": "分配；划拨", "syn": "assign · distribute · allot", "hot": true}, {"n": "6", "w": "assign", "zh": "指派；布置", "syn": "allocate · appoint · give", "hot": true}, {"n": "7", "w": "attach", "zh": "附上；依恋", "syn": "connect · enclose · fasten", "hot": true}, {"n": "8", "w": "author", "zh": "作者；创作", "syn": "writer · creator · compose", "hot": false}, {"n": "9", "w": "bond", "zh": "纽带；债券；黏合", "syn": "link · connection · glue", "hot": true}, {"n": "10", "w": "brief", "zh": "简短的；简报", "syn": "short · concise · summary", "hot": true}, {"n": "11", "w": "capable", "zh": "有能力的", "syn": "able · competent · skilled", "hot": true}, {"n": "12", "w": "cite", "zh": "引用；列举", "syn": "quote · refer to · mention", "hot": true}, {"n": "13", "w": "cooperate", "zh": "合作", "syn": "collaborate · work together · team up", "hot": true}, {"n": "14", "w": "discriminate", "zh": "区分；歧视", "syn": "distinguish · differentiate · treat unfairly", "hot": true}, {"n": "15", "w": "display", "zh": "展示；陈列", "syn": "show · exhibit · demonstrate", "hot": true}, {"n": "16", "w": "diverse", "zh": "多样的", "syn": "varied · different · mixed", "hot": true}, {"n": "17", "w": "domain", "zh": "领域；域名", "syn": "field · area · sphere", "hot": true}, {"n": "18", "w": "edit", "zh": "编辑；校订", "syn": "revise · amend · proofread", "hot": false}, {"n": "19", "w": "enhance", "zh": "增强；提高", "syn": "improve · boost · strengthen", "hot": true}, {"n": "20", "w": "estate", "zh": "地产；遗产", "syn": "property · land · inheritance", "hot": false}, {"n": "21", "w": "exceed", "zh": "超过；超出", "syn": "surpass · go beyond · outstrip", "hot": true}, {"n": "22", "w": "expert", "zh": "专家；熟练的", "syn": "specialist · professional · skilled", "hot": true}, {"n": "23", "w": "explicit", "zh": "明确的；直白的", "syn": "clear · definite · straightforward", "hot": true}, {"n": "24", "w": "federal", "zh": "联邦的", "syn": "national · central · union", "hot": false}, {"n": "25", "w": "fee", "zh": "费用；酬金", "syn": "charge · cost · payment", "hot": true}, {"n": "26", "w": "flexible", "zh": "灵活的；柔韧的", "syn": "adaptable · versatile · pliable", "hot": true}, {"n": "27", "w": "furthermore", "zh": "此外；而且", "syn": "moreover · in addition · besides", "hot": true}, {"n": "28", "w": "gender", "zh": "性别", "syn": "sex · male/female", "hot": false}, {"n": "29", "w": "ignored", "zh": "被忽视的（ignore）", "syn": "overlooked · disregarded · neglected", "hot": true}, {"n": "30", "w": "incentive", "zh": "激励；动机", "syn": "motivation · stimulus · inducement", "hot": true}]}, {"id": "awl-sublist6-day2", "label": "Sublist 6 · 第31–60词", "words": [{"n": "31", "w": "incidence", "zh": "发生率；事件", "syn": "occurrence · rate · frequency", "hot": true}, {"n": "32", "w": "incorporate", "zh": "合并；纳入", "syn": "include · integrate · absorb", "hot": true}, {"n": "33", "w": "index", "zh": "索引；指数", "syn": "catalogue · indicator · list", "hot": false}, {"n": "34", "w": "inhibit", "zh": "抑制；阻碍", "syn": "restrain · hinder · suppress", "hot": true}, {"n": "35", "w": "initiate", "zh": "发起；开始", "syn": "start · launch · begin", "hot": true}, {"n": "36", "w": "input", "zh": "投入；输入", "syn": "contribution · data · feed in", "hot": true}, {"n": "37", "w": "instruct", "zh": "指示；教导", "syn": "teach · direct · order", "hot": true}, {"n": "38", "w": "intelligence", "zh": "智力；情报", "syn": "intellect · information · smarts", "hot": true}, {"n": "39", "w": "interval", "zh": "间隔；间歇", "syn": "gap · period · pause", "hot": true}, {"n": "40", "w": "lecture", "zh": "讲座；训斥", "syn": "talk · speech · reprimand", "hot": true}, {"n": "41", "w": "migrate", "zh": "迁移；移居", "syn": "move · relocate · emigrate", "hot": true}, {"n": "42", "w": "minimum", "zh": "最小的；最低限度", "syn": "least · lowest · minimal", "hot": true}, {"n": "43", "w": "ministry", "zh": "部；牧师职务", "syn": "department · government office", "hot": false}, {"n": "44", "w": "motive", "zh": "动机；目的", "syn": "reason · incentive · intention", "hot": true}, {"n": "45", "w": "neutral", "zh": "中立的；中性的", "syn": "impartial · unbiased · uncommitted", "hot": true}, {"n": "46", "w": "nevertheless", "zh": "然而；尽管如此", "syn": "however · nonetheless · still", "hot": true}, {"n": "47", "w": "overseas", "zh": "海外的；在国外", "syn": "abroad · foreign · international", "hot": true}, {"n": "48", "w": "precede", "zh": "先于；在……之前", "syn": "come before · lead · antecede", "hot": true}, {"n": "49", "w": "presume", "zh": "假定；推测", "syn": "assume · suppose · take for granted", "hot": true}, {"n": "50", "w": "rational", "zh": "理性的；合理的", "syn": "logical · reasonable · sensible", "hot": true}, {"n": "51", "w": "recover", "zh": "恢复；痊愈；找回", "syn": "regain · recuperate · retrieve", "hot": true}, {"n": "52", "w": "reveal", "zh": "揭示；透露", "syn": "disclose · show · uncover", "hot": true}, {"n": "53", "w": "scope", "zh": "范围；余地", "syn": "range · extent · opportunity", "hot": true}, {"n": "54", "w": "subsidy", "zh": "补贴；津贴", "syn": "grant · allowance · funding", "hot": true}, {"n": "55", "w": "tape", "zh": "磁带；胶带；录制", "syn": "record · bind · cassette", "hot": false}, {"n": "56", "w": "trace", "zh": "追踪；痕迹", "syn": "track · find · remnant", "hot": true}, {"n": "57", "w": "transform", "zh": "转变；改造", "syn": "change · convert · reshape", "hot": true}, {"n": "58", "w": "transport", "zh": "运输；运送", "syn": "carry · ship · convey", "hot": true}, {"n": "59", "w": "underlie", "zh": "构成……的基础", "syn": "be the basis of · lie beneath", "hot": true}, {"n": "60", "w": "utilise", "zh": "利用（美 utilize）", "syn": "use · employ · make use of", "hot": true}]}, {"id": "awl-sublist7-day1", "label": "Sublist 7 · 第1–30词", "words": [{"n": "1", "w": "adapt", "zh": "适应；改编", "syn": "adjust · modify · tailor", "hot": true}, {"n": "2", "w": "adult", "zh": "成人；成年的", "syn": "grown-up · mature · of age", "hot": true}, {"n": "3", "w": "advocate", "zh": "提倡；倡导者", "syn": "support · promote · champion", "hot": true}, {"n": "4", "w": "aid", "zh": "援助；帮助", "syn": "help · assist · support", "hot": true}, {"n": "5", "w": "channel", "zh": "渠道；频道；引导", "syn": "medium · route · direct", "hot": true}, {"n": "6", "w": "chemical", "zh": "化学的；化学品", "syn": "substance · compound · synthetic", "hot": false}, {"n": "7", "w": "classic", "zh": "经典的；典范", "syn": "typical · traditional · masterpiece", "hot": true}, {"n": "8", "w": "comprehensive", "zh": "全面的；综合的", "syn": "thorough · complete · extensive", "hot": true}, {"n": "9", "w": "comprise", "zh": "包含；由…组成", "syn": "consist of · include · make up", "hot": true}, {"n": "10", "w": "confirm", "zh": "确认；证实", "syn": "verify · affirm · prove", "hot": true}, {"n": "11", "w": "contrary", "zh": "相反的；对立面", "syn": "opposite · conflicting · adverse", "hot": true}, {"n": "12", "w": "convert", "zh": "转换；改变信仰", "syn": "change · transform · switch", "hot": true}, {"n": "13", "w": "couple", "zh": "一对；连接；几个", "syn": "pair · link · a few", "hot": true}, {"n": "14", "w": "decade", "zh": "十年", "syn": "ten years · period", "hot": true}, {"n": "15", "w": "definite", "zh": "明确的；肯定的", "syn": "certain · clear · fixed", "hot": true}, {"n": "16", "w": "deny", "zh": "否认；拒绝给予", "syn": "refuse · reject · contradict", "hot": true}, {"n": "17", "w": "differentiate", "zh": "区分；使不同", "syn": "distinguish · tell apart · set apart", "hot": true}, {"n": "18", "w": "dispose", "zh": "处理；处置；使倾向于", "syn": "get rid of · discard · deal with", "hot": true}, {"n": "19", "w": "dynamic", "zh": "动态的；有活力的", "syn": "energetic · changing · active", "hot": true}, {"n": "20", "w": "eliminate", "zh": "消除；淘汰", "syn": "remove · eradicate · get rid of", "hot": true}, {"n": "21", "w": "empirical", "zh": "经验的；实证的", "syn": "based on evidence · observational · practical", "hot": true}, {"n": "22", "w": "equip", "zh": "装备；使具备", "syn": "provide · furnish · outfit", "hot": true}, {"n": "23", "w": "extract", "zh": "提取；摘录", "syn": "take out · derive · excerpt", "hot": true}, {"n": "24", "w": "file", "zh": "文件；归档；锉", "syn": "document · record · archive", "hot": false}, {"n": "25", "w": "finite", "zh": "有限的", "syn": "limited · bounded · restricted", "hot": true}, {"n": "26", "w": "foundation", "zh": "基础；基金会", "syn": "basis · base · establishment", "hot": true}, {"n": "27", "w": "globe", "zh": "地球；球体", "syn": "world · earth · sphere", "hot": true}, {"n": "28", "w": "grade", "zh": "等级；评分；年级", "syn": "level · mark · rank", "hot": true}, {"n": "29", "w": "guarantee", "zh": "保证；担保", "syn": "ensure · promise · warranty", "hot": true}, {"n": "30", "w": "hierarchy", "zh": "等级制度；层级", "syn": "ranking · pecking order · structure", "hot": true}]}, {"id": "awl-sublist7-day2", "label": "Sublist 7 · 第31–60词", "words": [{"n": "31", "w": "identical", "zh": "完全相同的", "syn": "same · alike · indistinguishable", "hot": true}, {"n": "32", "w": "ideology", "zh": "意识形态；思想体系", "syn": "belief system · doctrine · worldview", "hot": true}, {"n": "33", "w": "infer", "zh": "推断；推论", "syn": "deduce · conclude · gather", "hot": true}, {"n": "34", "w": "innovate", "zh": "创新；革新", "syn": "create · invent · pioneer", "hot": true}, {"n": "35", "w": "insert", "zh": "插入；嵌入", "syn": "put in · add · introduce", "hot": true}, {"n": "36", "w": "intervene", "zh": "介入；干预", "syn": "interfere · step in · mediate", "hot": true}, {"n": "37", "w": "isolate", "zh": "隔离；孤立", "syn": "separate · cut off · set apart", "hot": true}, {"n": "38", "w": "media", "zh": "媒体；媒介", "syn": "press · news outlets · channels", "hot": true}, {"n": "39", "w": "mode", "zh": "方式；模式", "syn": "method · manner · style", "hot": true}, {"n": "40", "w": "paradigm", "zh": "范式；典范", "syn": "model · framework · prototype", "hot": true}, {"n": "41", "w": "phenomenon", "zh": "现象", "syn": "occurrence · event · fact", "hot": true}, {"n": "42", "w": "priority", "zh": "优先；优先事项", "syn": "preference · urgency · precedence", "hot": true}, {"n": "43", "w": "prohibit", "zh": "禁止；阻止", "syn": "ban · forbid · outlaw", "hot": true}, {"n": "44", "w": "publication", "zh": "出版物；发表", "syn": "book · article · release", "hot": true}, {"n": "45", "w": "quote", "zh": "引用；报价", "syn": "cite · extract · quotation", "hot": true}, {"n": "46", "w": "release", "zh": "释放；发布", "syn": "free · issue · launch", "hot": true}, {"n": "47", "w": "reverse", "zh": "反转；相反的", "syn": "opposite · invert · turn around", "hot": true}, {"n": "48", "w": "simulate", "zh": "模拟；模仿", "syn": "imitate · model · replicate", "hot": true}, {"n": "49", "w": "sole", "zh": "唯一的；单独的", "syn": "only · single · exclusive", "hot": true}, {"n": "50", "w": "somewhat", "zh": "有点；稍微", "syn": "slightly · fairly · to some extent", "hot": true}, {"n": "51", "w": "submit", "zh": "提交；服从", "syn": "hand in · present · yield", "hot": true}, {"n": "52", "w": "successor", "zh": "继任者；后继者", "syn": "heir · replacement · follower", "hot": true}, {"n": "53", "w": "survive", "zh": "幸存；存活", "syn": "live through · endure · outlast", "hot": true}, {"n": "54", "w": "thesis", "zh": "论文；论点", "syn": "dissertation · argument · proposition", "hot": true}, {"n": "55", "w": "topic", "zh": "话题；主题", "syn": "subject · theme · issue", "hot": true}, {"n": "56", "w": "transmit", "zh": "传送；传播", "syn": "send · pass on · broadcast", "hot": true}, {"n": "57", "w": "ultimate", "zh": "最终的；终极的", "syn": "final · eventual · supreme", "hot": true}, {"n": "58", "w": "unique", "zh": "独特的；唯一的", "syn": "distinctive · one of a kind · exclusive", "hot": true}, {"n": "59", "w": "visible", "zh": "可见的；明显的", "syn": "noticeable · apparent · clear", "hot": true}, {"n": "60", "w": "voluntary", "zh": "自愿的；志愿的", "syn": "optional · unpaid · willing", "hot": true}]}, {"id": "awl-sublist8-day1", "label": "Sublist 8 · 第1–30词", "words": [{"n": "1", "w": "abandon", "zh": "放弃；抛弃", "syn": "give up · desert · discard", "hot": true}, {"n": "2", "w": "accompany", "zh": "陪伴；伴随", "syn": "go with · escort · come with", "hot": false}, {"n": "3", "w": "accumulate", "zh": "积累；积聚", "syn": "build up · gather · amass", "hot": true}, {"n": "4", "w": "ambiguous", "zh": "模棱两可的；含糊的", "syn": "unclear · vague · equivocal", "hot": true}, {"n": "5", "w": "append", "zh": "附加；添加", "syn": "attach · add · affix", "hot": false}, {"n": "6", "w": "appreciate", "zh": "欣赏；感激；意识到", "syn": "value · be grateful for · recognise", "hot": true}, {"n": "7", "w": "arbitrary", "zh": "任意的；武断的", "syn": "random · unreasoned · subjective", "hot": false}, {"n": "8", "w": "automate", "zh": "使自动化", "syn": "mechanise · computerise", "hot": true}, {"n": "9", "w": "bias", "zh": "偏见；偏向", "syn": "prejudice · partiality · slant", "hot": true}, {"n": "10", "w": "chart", "zh": "图表；绘制", "syn": "graph · diagram · map out", "hot": true}, {"n": "11", "w": "clarify", "zh": "澄清；阐明", "syn": "explain · make clear · elucidate", "hot": true}, {"n": "12", "w": "commodity", "zh": "商品；日用品", "syn": "goods · product · merchandise", "hot": false}, {"n": "13", "w": "complement", "zh": "补充；与…相辅相成", "syn": "supplement · enhance · go well with", "hot": false}, {"n": "14", "w": "conform", "zh": "遵守；符合", "syn": "comply · obey · follow", "hot": false}, {"n": "15", "w": "contemporary", "zh": "当代的；同时代的", "syn": "modern · current · present-day", "hot": true}, {"n": "16", "w": "contradict", "zh": "反驳；与…矛盾", "syn": "deny · oppose · be inconsistent with", "hot": true}, {"n": "17", "w": "crucial", "zh": "至关重要的", "syn": "vital · essential · key", "hot": true}, {"n": "18", "w": "currency", "zh": "货币；流通", "syn": "money · legal tender · circulation", "hot": true}, {"n": "19", "w": "denote", "zh": "表示；意味着", "syn": "indicate · signify · stand for", "hot": false}, {"n": "20", "w": "detect", "zh": "发现；察觉", "syn": "discover · identify · notice", "hot": true}, {"n": "21", "w": "deviate", "zh": "偏离；背离", "syn": "diverge · depart from · stray", "hot": false}, {"n": "22", "w": "displace", "zh": "取代；迫使离开", "syn": "replace · supplant · uproot", "hot": false}, {"n": "23", "w": "drama", "zh": "戏剧；戏剧性事件", "syn": "play · theatre · excitement", "hot": false}, {"n": "24", "w": "eventual", "zh": "最终的", "syn": "final · ultimate · resulting", "hot": true}, {"n": "25", "w": "exhibit", "zh": "展览；表现出", "syn": "display · show · demonstrate", "hot": true}, {"n": "26", "w": "exploit", "zh": "开发；利用；剥削", "syn": "make use of · utilise · take advantage of", "hot": true}, {"n": "27", "w": "fluctuate", "zh": "波动；起伏", "syn": "vary · rise and fall · oscillate", "hot": true}, {"n": "28", "w": "guideline", "zh": "指导方针；准则", "syn": "rule · principle · instruction", "hot": true}, {"n": "29", "w": "highlight", "zh": "突出；强调", "syn": "emphasise · stress · spotlight", "hot": true}, {"n": "30", "w": "implicit", "zh": "含蓄的；隐含的", "syn": "implied · unspoken · tacit", "hot": false}]}, {"id": "awl-sublist8-day2", "label": "Sublist 8 · 第31–60词", "words": [{"n": "31", "w": "induce", "zh": "引起；诱导", "syn": "cause · bring about · trigger", "hot": true}, {"n": "32", "w": "inevitable", "zh": "不可避免的", "syn": "unavoidable · certain · bound to happen", "hot": true}, {"n": "33", "w": "infrastructure", "zh": "基础设施", "syn": "facilities · basic systems · framework", "hot": true}, {"n": "34", "w": "inspect", "zh": "检查；视察", "syn": "examine · check · survey", "hot": true}, {"n": "35", "w": "intense", "zh": "强烈的；剧烈的", "syn": "strong · extreme · fierce", "hot": true}, {"n": "36", "w": "manipulate", "zh": "操控；巧妙处理", "syn": "control · handle · influence", "hot": true}, {"n": "37", "w": "minimise", "zh": "使最小化；尽量减少", "syn": "reduce · lessen · cut down", "hot": true}, {"n": "38", "w": "nuclear", "zh": "核的；核能的", "syn": "atomic · nuclear-related", "hot": false}, {"n": "39", "w": "offset", "zh": "抵消；补偿", "syn": "counterbalance · make up for · compensate for", "hot": true}, {"n": "40", "w": "paragraph", "zh": "段落", "syn": "section · passage unit", "hot": false}, {"n": "41", "w": "plus", "zh": "加上；此外；优势", "syn": "in addition · as well as · advantage", "hot": true}, {"n": "42", "w": "practitioner", "zh": "从业者；开业者", "syn": "professional · specialist · clinician", "hot": true}, {"n": "43", "w": "predominant", "zh": "占主导的；显著的", "syn": "main · dominant · primary", "hot": true}, {"n": "44", "w": "prospect", "zh": "前景；可能性", "syn": "possibility · outlook · likelihood", "hot": true}, {"n": "45", "w": "radical", "zh": "激进的；根本的", "syn": "extreme · fundamental · drastic", "hot": true}, {"n": "46", "w": "random", "zh": "随机的；任意的", "syn": "chance · arbitrary · haphazard", "hot": true}, {"n": "47", "w": "reinforce", "zh": "加强；巩固", "syn": "strengthen · support · bolster", "hot": true}, {"n": "48", "w": "restore", "zh": "恢复；修复", "syn": "bring back · repair · reinstate", "hot": true}, {"n": "49", "w": "revise", "zh": "修订；复习", "syn": "amend · update · review", "hot": true}, {"n": "50", "w": "schedule", "zh": "日程；安排", "syn": "timetable · plan · arrange", "hot": true}, {"n": "51", "w": "tense", "zh": "紧张的；时态", "syn": "stressed · strained · verb tense", "hot": true}, {"n": "52", "w": "terminate", "zh": "终止；结束", "syn": "end · finish · discontinue", "hot": true}, {"n": "53", "w": "theme", "zh": "主题；主旨", "syn": "topic · subject · motif", "hot": true}, {"n": "54", "w": "thereby", "zh": "由此；从而", "syn": "thus · in that way · as a result", "hot": true}, {"n": "55", "w": "uniform", "zh": "统一的；制服", "syn": "consistent · identical · standard", "hot": true}, {"n": "56", "w": "vehicle", "zh": "车辆；媒介；手段", "syn": "car · means · medium", "hot": true}, {"n": "57", "w": "via", "zh": "经由；通过", "syn": "by way of · through · by means of", "hot": true}, {"n": "58", "w": "virtual", "zh": "虚拟的；实质上的", "syn": "online · almost · de facto", "hot": true}, {"n": "59", "w": "visual", "zh": "视觉的；可视的", "syn": "optical · graphic · visible", "hot": true}, {"n": "60", "w": "widespread", "zh": "广泛的；普遍的", "syn": "common · extensive · prevalent", "hot": true}]}, {"id": "awl-sublist9-day1", "label": "Sublist 9 · 第1–30词", "words": [{"n": "1", "w": "accommodate", "zh": "容纳；适应", "syn": "house · adapt to · make room for", "hot": true}, {"n": "2", "w": "analogy", "zh": "类比；比拟", "syn": "comparison · parallel · similarity", "hot": false}, {"n": "3", "w": "anticipate", "zh": "预期；预料", "syn": "expect · foresee · predict", "hot": true}, {"n": "4", "w": "assure", "zh": "保证；使确信", "syn": "guarantee · reassure · ensure", "hot": true}, {"n": "5", "w": "attain", "zh": "达到；获得", "syn": "achieve · reach · obtain", "hot": true}, {"n": "6", "w": "behalf", "zh": "代表（on behalf of）", "syn": "as a representative of · in the interest of · for", "hot": false}, {"n": "7", "w": "bulk", "zh": "大部分；体积", "syn": "majority · most · mass", "hot": false}, {"n": "8", "w": "cease", "zh": "停止；终止", "syn": "stop · end · discontinue", "hot": true}, {"n": "9", "w": "coherent", "zh": "连贯的；条理清楚的", "syn": "logical · consistent · clear", "hot": true}, {"n": "10", "w": "coincide", "zh": "同时发生；一致", "syn": "occur together · correspond · happen at the same time", "hot": false}, {"n": "11", "w": "commence", "zh": "开始", "syn": "begin · start · initiate", "hot": true}, {"n": "12", "w": "compatible", "zh": "兼容的；相符的", "syn": "consistent · matching · well-suited", "hot": true}, {"n": "13", "w": "concurrent", "zh": "同时发生的", "syn": "simultaneous · parallel · coincident", "hot": false}, {"n": "14", "w": "confine", "zh": "限制；局限于", "syn": "limit · restrict · keep within", "hot": true}, {"n": "15", "w": "controversy", "zh": "争议；争论", "syn": "dispute · debate · disagreement", "hot": true}, {"n": "16", "w": "conversely", "zh": "相反地", "syn": "on the contrary · in contrast · vice versa", "hot": true}, {"n": "17", "w": "device", "zh": "装置；手段", "syn": "gadget · apparatus · tool", "hot": true}, {"n": "18", "w": "devote", "zh": "致力于；奉献", "syn": "dedicate · commit · give", "hot": true}, {"n": "19", "w": "diminish", "zh": "减少；削弱", "syn": "reduce · decrease · lessen", "hot": true}, {"n": "20", "w": "distort", "zh": "扭曲；歪曲", "syn": "twist · misrepresent · warp", "hot": false}, {"n": "21", "w": "duration", "zh": "持续时间", "syn": "length · period · timespan", "hot": true}, {"n": "22", "w": "erode", "zh": "侵蚀；削弱", "syn": "wear away · undermine · eat into", "hot": false}, {"n": "23", "w": "ethic", "zh": "伦理；道德准则", "syn": "moral principle · values · code", "hot": true}, {"n": "24", "w": "format", "zh": "格式；安排", "syn": "layout · structure · arrangement", "hot": true}, {"n": "25", "w": "found", "zh": "创立；建立", "syn": "establish · set up · create", "hot": true}, {"n": "26", "w": "inherent", "zh": "内在的；固有的", "syn": "built-in · intrinsic · innate", "hot": true}, {"n": "27", "w": "insight", "zh": "洞察；见解", "syn": "understanding · perception · discernment", "hot": true}, {"n": "28", "w": "integral", "zh": "必不可少的；完整的", "syn": "essential · vital · constituent", "hot": true}, {"n": "29", "w": "intermediate", "zh": "中间的；中级的", "syn": "middle · mid-level · transitional", "hot": false}, {"n": "30", "w": "manual", "zh": "手册；手动的", "syn": "handbook · by hand · guidebook", "hot": true}]}, {"id": "awl-sublist9-day2", "label": "Sublist 9 · 第31–60词", "words": [{"n": "31", "w": "mature", "zh": "成熟的；使成熟", "syn": "fully developed · grown · ripe", "hot": true}, {"n": "32", "w": "mediate", "zh": "调解；斡旋", "syn": "intervene · arbitrate · negotiate", "hot": false}, {"n": "33", "w": "medium", "zh": "媒介；中等的", "syn": "means · channel · average", "hot": true}, {"n": "34", "w": "military", "zh": "军事的；军队", "syn": "armed forces · army · defence", "hot": false}, {"n": "35", "w": "minimal", "zh": "最小的；极少的", "syn": "slightest · least · very small", "hot": true}, {"n": "36", "w": "mutual", "zh": "相互的；共同的", "syn": "shared · reciprocal · common", "hot": true}, {"n": "37", "w": "norm", "zh": "规范；常态", "syn": "standard · rule · convention", "hot": true}, {"n": "38", "w": "overlap", "zh": "重叠；部分相同", "syn": "coincide · intersect · share", "hot": true}, {"n": "39", "w": "passive", "zh": "被动的", "syn": "inactive · submissive · not active", "hot": false}, {"n": "40", "w": "portion", "zh": "一部分；一份", "syn": "part · share · segment", "hot": true}, {"n": "41", "w": "preliminary", "zh": "初步的；预备的", "syn": "initial · introductory · preparatory", "hot": true}, {"n": "42", "w": "protocol", "zh": "协议；规程", "syn": "procedure · rules · agreement", "hot": true}, {"n": "43", "w": "qualitative", "zh": "定性的", "syn": "descriptive · quality-based · non-numerical", "hot": true}, {"n": "44", "w": "refine", "zh": "精炼；改进", "syn": "improve · polish · purify", "hot": true}, {"n": "45", "w": "relax", "zh": "放松；放宽", "syn": "ease · loosen · unwind", "hot": false}, {"n": "46", "w": "restrain", "zh": "抑制；约束", "syn": "hold back · limit · control", "hot": true}, {"n": "47", "w": "revolution", "zh": "革命；巨变", "syn": "uprising · radical change · transformation", "hot": true}, {"n": "48", "w": "rigid", "zh": "僵硬的；严格的", "syn": "stiff · inflexible · strict", "hot": true}, {"n": "49", "w": "route", "zh": "路线；途径", "syn": "path · way · course", "hot": true}, {"n": "50", "w": "scenario", "zh": "设想；情景", "syn": "situation · hypothetical case · scene", "hot": true}, {"n": "51", "w": "sphere", "zh": "领域；球体", "syn": "area · field · domain", "hot": true}, {"n": "52", "w": "subordinate", "zh": "从属的；下级", "syn": "junior · secondary · inferior", "hot": false}, {"n": "53", "w": "supplement", "zh": "补充；增补", "syn": "add to · complement · extra", "hot": true}, {"n": "54", "w": "suspend", "zh": "暂停；悬挂", "syn": "halt · postpone · hang", "hot": true}, {"n": "55", "w": "team", "zh": "团队", "syn": "group · squad · crew", "hot": false}, {"n": "56", "w": "temporary", "zh": "暂时的", "syn": "short-term · interim · provisional", "hot": true}, {"n": "57", "w": "trigger", "zh": "触发；引发", "syn": "set off · cause · spark", "hot": true}, {"n": "58", "w": "unify", "zh": "统一", "syn": "unite · bring together · integrate", "hot": true}, {"n": "59", "w": "violate", "zh": "违反；侵犯", "syn": "break · breach · infringe", "hot": true}, {"n": "60", "w": "vision", "zh": "愿景；视力", "syn": "outlook · foresight · sight", "hot": true}]}, {"id": "awl-sublist10-day1", "label": "Sublist 10 · 第1–30词", "words": [{"n": "1", "w": "adjacent", "zh": "邻近的；毗连的", "syn": "neighbouring · next to · adjoining", "hot": true}, {"n": "2", "w": "albeit", "zh": "尽管；虽然", "syn": "although · even though · though", "hot": true}, {"n": "3", "w": "assemble", "zh": "组装；集合", "syn": "gather · put together · convene", "hot": true}, {"n": "4", "w": "collapse", "zh": "倒塌；崩溃", "syn": "fall down · break down · fail", "hot": true}, {"n": "5", "w": "colleague", "zh": "同事", "syn": "coworker · associate · workmate", "hot": true}, {"n": "6", "w": "compile", "zh": "汇编；编纂", "syn": "collect · put together · assemble", "hot": true}, {"n": "7", "w": "conceive", "zh": "构想；设想", "syn": "think of · imagine · devise", "hot": true}, {"n": "8", "w": "convince", "zh": "说服；使确信", "syn": "persuade · satisfy · win over", "hot": true}, {"n": "9", "w": "depress", "zh": "使沮丧；压低", "syn": "sadden · lower · push down", "hot": false}, {"n": "10", "w": "encounter", "zh": "遇到；遭遇", "syn": "meet · come across · face", "hot": true}, {"n": "11", "w": "enormous", "zh": "巨大的", "syn": "huge · immense · vast", "hot": true}, {"n": "12", "w": "forthcoming", "zh": "即将到来的；乐于提供的", "syn": "upcoming · approaching · communicative", "hot": true}, {"n": "13", "w": "incline", "zh": "倾向于；倾斜", "syn": "tend to · lean · be disposed to", "hot": true}, {"n": "14", "w": "integrity", "zh": "正直；完整性", "syn": "honesty · wholeness · uprightness", "hot": true}, {"n": "15", "w": "intrinsic", "zh": "内在的；固有的", "syn": "inherent · built-in · essential", "hot": true}, {"n": "16", "w": "invoke", "zh": "援引；调用", "syn": "call upon · cite · appeal to", "hot": false}, {"n": "17", "w": "levy", "zh": "征收（税、费）", "syn": "impose · charge · collect", "hot": false}, {"n": "18", "w": "likewise", "zh": "同样地", "syn": "similarly · also · in the same way", "hot": true}, {"n": "19", "w": "nonetheless", "zh": "尽管如此", "syn": "nevertheless · however · even so", "hot": true}, {"n": "20", "w": "notwithstanding", "zh": "尽管；虽然", "syn": "despite · in spite of · although", "hot": true}, {"n": "21", "w": "odd", "zh": "奇怪的；奇数的", "syn": "strange · unusual · peculiar", "hot": true}, {"n": "22", "w": "ongoing", "zh": "正在进行的", "syn": "continuing · current · in progress", "hot": true}, {"n": "23", "w": "panel", "zh": "专家小组；面板", "syn": "committee · board · group of experts", "hot": true}, {"n": "24", "w": "persist", "zh": "坚持；持续", "syn": "continue · endure · keep on", "hot": true}, {"n": "25", "w": "pose", "zh": "造成；提出", "syn": "present · raise · constitute", "hot": true}, {"n": "26", "w": "reluctance", "zh": "不情愿；勉强", "syn": "unwillingness · hesitation · disinclination", "hot": false}, {"n": "27", "w": "so-called", "zh": "所谓的", "syn": "alleged · supposed · so named", "hot": true}, {"n": "28", "w": "straightforward", "zh": "简单明了的；直率的", "syn": "simple · clear · uncomplicated", "hot": true}, {"n": "29", "w": "undertake", "zh": "承担；着手做", "syn": "take on · embark on · commit to", "hot": true}, {"n": "30", "w": "whereby", "zh": "借以；由此", "syn": "by which · through which · as a result of which", "hot": true}]}];
+
+const LS_DECK = 'ielts-vocab-deck';
+const LS_PROG = 'ielts-vocab-prog-v1';
+const $ = (s, el=document) => el.querySelector(s);
+const app = $('#app'), deckSel = $('#deck'), boot = $('#boot');
+
+let mode = 'flash', deckId = localStorage.getItem(LS_DECK) || DECKS[DECKS.length-1].id;
+let queue = [], idx = 0, flipped = false, quizLocked = false;
+let stats = { known: 0, again: 0, hard: 0 };
+let pendingTimer = null;
+
+function loadProg(){ try{return JSON.parse(localStorage.getItem(LS_PROG)||'{}');}catch(e){return{};} }
+function saveProg(p){ localStorage.setItem(LS_PROG, JSON.stringify(p)); }
+function markKnown(word, ok){ const p=loadProg(); p[deckId+'::'+word]={ok:!!ok,t:Date.now()}; saveProg(p); }
+function currentDeck(){ return DECKS.find(d=>d.id===deckId)||DECKS[0]; }
+function shuffle(a){ const x=a.slice(); for(let i=x.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [x[i],x[j]]=[x[j],x[i]]; } return x; }
+function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escAttr(s){ return esc(s).replace(/\n/g,' '); }
+function clearTimer(){ if(pendingTimer){ clearTimeout(pendingTimer); pendingTimer=null; } }
+
+function speakable(w){
+  return String(w??'')
+    .replace(/\([^)]*\)/g,' ')
+    .replace(/\[[^\]]*\]/g,' ')
+    .replace(/[·•/|,;:]+/g,' ')
+    .replace(/\s+/g,' ')
+    .trim()
+    .split(' ')[0] || String(w??'').trim();
+}
+let _voicesReady=false;
+function ensureVoices(){
+  if(!window.speechSynthesis) return [];
+  const v=speechSynthesis.getVoices()||[];
+  if(v.length) _voicesReady=true;
+  return v;
+}
+if(typeof window!=='undefined' && window.speechSynthesis){
+  speechSynthesis.addEventListener('voiceschanged', ()=>{ _voicesReady=true; });
+  ensureVoices();
+}
+function pickEnVoice(){
+  const voices=ensureVoices();
+  if(!voices.length) return null;
+  const gb=voices.find(v=>/^en-GB/i.test(v.lang));
+  if(gb) return gb;
+  const en=voices.find(v=>/^en([-_]|$)/i.test(v.lang));
+  return en||null;
+}
+function speakWord(raw){
+  if(!window.speechSynthesis) return;
+  const text=speakable(raw);
+  if(!text) return;
+  try{ speechSynthesis.cancel(); }catch(e){}
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-GB';
+  u.rate=0.92;
+  const voice=pickEnVoice();
+  if(voice){ u.voice=voice; u.lang=voice.lang||'en-GB'; }
+  speechSynthesis.speak(u);
+}
+const SAY_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>`;
+function sayBtnHtml(){
+  return `<button type="button" class="say" id="say" aria-label="播放发音">${SAY_SVG}</button>`;
+}
+function wordRowHtml(word){
+  return `<div class="word-row"><div class="word">${esc(word)}</div>${sayBtnHtml()}</div>`;
+}
+function wireSay(word){
+  const btn=$('#say');
+  if(!btn) return;
+  btn.onclick=(e)=>{ e.stopPropagation(); e.preventDefault(); speakWord(word); };
+}
+
+function fillDeckSelect(){
+  deckSel.innerHTML = DECKS.map(d=>`<option value="${d.id}" ${d.id===deckId?'selected':''}>${d.label}</option>`).join('');
+}
+function resetQueue(preferUnknown=true){
+  clearTimer();
+  const words = currentDeck().words.slice();
+  const prog = loadProg();
+  if(preferUnknown){
+    words.sort((a,b)=>(prog[deckId+'::'+a.w]?.ok?1:0)-(prog[deckId+'::'+b.w]?.ok?1:0));
+  }
+  queue = mode==='flash' ? words : shuffle(words);
+  idx=0; flipped=false; quizLocked=false;
+  stats={known:0,again:0,hard:0};
+}
+function progressPct(){ return queue.length? Math.round((idx/queue.length)*100):0; }
+function renderShell(inner){
+  const d=currentDeck();
+  app.innerHTML = `
+    <div class="meta"><span>${esc(d.label)}</span><span class="chip">${Math.min(idx+1,queue.length)} / ${queue.length}</span></div>
+    <div class="progress"><i style="width:${progressPct()}%"></i></div>
+    ${inner}`;
+}
+function renderDone(){
+  clearTimer();
+  app.innerHTML = `
+    <div class="done">
+      <div class="emoji">✨</div>
+      <h2>这组过完了</h2>
+      <div class="stats">
+        <span>认识 ${stats.known}</span>
+        <span>模糊 ${stats.hard}</span>
+        <span>再背 ${stats.again}</span>
+      </div>
+      <button type="button" id="again">再背一遍（优先生词）</button>
+      <button type="button" id="reshuffle" class="btn-sec" style="background:var(--surface2);color:var(--text);border:1px solid var(--line)">全部重排</button>
+    </div>`;
+  $('#again').onclick=()=>{resetQueue(true);render();};
+  $('#reshuffle').onclick=()=>{resetQueue(false);queue=shuffle(queue);render();};
+}
+function cur(){ return queue[idx]; }
+function next(requeue){
+  clearTimer();
+  const w=queue[idx];
+  if(requeue) queue.push(w);
+  idx++; flipped=false; quizLocked=false;
+  render();
+}
+
+function renderFlash(){
+  if(idx>=queue.length) return renderDone();
+  const w=cur(), front=!flipped;
+  renderShell(`
+    <div class="card-wrap">
+      <div class="card ${front?'':'back'}" id="card" role="button" aria-label="翻面">
+        <div class="badge">${w.hot?'★ 高频':''}</div>
+        ${front
+          ? `${wordRowHtml(w.w)}<div class="hint">点卡片看中文和同义替换</div>`
+          : `${wordRowHtml(w.w)}
+             <div class="zh">${esc(w.zh)}</div>
+             <div class="syn">${esc(w.syn||'（暂无同义）')}</div>
+             <div class="hint">选下面按钮继续</div>`}
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn-bad" id="again">再背</button>
+      <button type="button" class="btn-mid" id="hard">模糊</button>
+      <button type="button" class="btn-good" id="ok">认识</button>
+      <button type="button" class="btn-sec" id="flip">${front?'翻面':'看正面'}</button>
+    </div>`);
+  const flip=()=>{flipped=!flipped;renderFlash();};
+  $('#card').onclick=flip; $('#flip').onclick=flip;
+  wireSay(w.w);
+  $('#again').onclick=()=>{stats.again++;markKnown(w.w,false);next(true);};
+  $('#hard').onclick=()=>{stats.hard++;markKnown(w.w,false);next(true);};
+  $('#ok').onclick=()=>{stats.known++;markKnown(w.w,true);next(false);};
+}
+
+function pickOptions(correct, field, n=4){
+  const pool=currentDeck().words.filter(x=>x.w!==correct.w);
+  const opts=shuffle(pool).slice(0,n-1).map(x=>x[field]);
+  opts.push(correct[field]);
+  return shuffle(opts);
+}
+
+function afterQuiz(ok, w, explainHtml){
+  const box=$('#explain');
+  box.className='explain '+(ok?'ok':'no');
+  box.innerHTML=explainHtml;
+  const bar=$('#contBar');
+  const btn=$('#cont');
+  clearTimer();
+  // always wait for tap so user can read synonyms / explanation
+  bar.classList.remove('hidden');
+  btn.textContent='下一题';
+  btn.onclick=()=>{ clearTimer(); next(!ok); };
+}
+
+function renderEn2Zh(){
+  if(idx>=queue.length) return renderDone();
+  const w=cur();
+  const opts=pickOptions(w,'zh');
+  renderShell(`
+    <div class="quiz-q">这个词是什么意思？</div>
+    <div class="quiz-prompt word-row"><div class="word">${esc(w.w)}</div>${sayBtnHtml()}</div>
+    <div class="quiz-sub">${w.hot?'★ 高频':'&nbsp;'}</div>
+    <div class="options" id="opts">
+      ${opts.map(o=>`<button type="button" data-v="${escAttr(o)}">${esc(o)}</button>`).join('')}
+    </div>
+    <div class="explain" id="explain">选一个答案</div>
+    <div class="solo-actions hidden" id="contBar">
+      <button type="button" class="btn-sec" id="cont" style="background:var(--accent);color:#0b1220;border:0;border-radius:14px;padding:15px;font-weight:700;width:100%">下一题</button>
+    </div>`);
+  wireSay(w.w);
+  $('#opts').onclick=(e)=>{
+    const b=e.target.closest('button');
+    if(!b||quizLocked) return;
+    quizLocked=true;
+    const ok=b.dataset.v===w.zh;
+    [...$('#opts').children].forEach(btn=>{
+      btn.disabled=true;
+      if(btn.dataset.v===w.zh) btn.classList.add('ok');
+      else if(btn===b&&!ok) btn.classList.add('no');
+    });
+    if(ok){ stats.known++; markKnown(w.w,true); afterQuiz(true,w,`<strong>对了</strong> · 同义：${esc(w.syn||'—')}`); }
+    else { stats.again++; markKnown(w.w,false); afterQuiz(false,w,`<strong>不对</strong> · 正确意思：${esc(w.zh)}<br>同义替换：${esc(w.syn||'—')}`); }
+  };
+}
+
+function renderSyn(){
+  if(idx>=queue.length) return renderDone();
+  const w=cur();
+  const synToken=s=>(s||'').split(/[·;,/]/).map(t=>t.trim()).filter(Boolean)[0]||s;
+  const correct=synToken(w.syn)||w.zh;
+  const pool=currentDeck().words.filter(x=>x.w!==w.w&&synToken(x.syn));
+  let opts=shuffle(pool).slice(0,3).map(x=>synToken(x.syn));
+  opts.push(correct);
+  opts=shuffle([...new Set(opts)]);
+  renderShell(`
+    <div class="quiz-q">哪个最适合做同义替换？</div>
+    <div class="quiz-prompt word-row"><div class="word">${esc(w.w)}</div>${sayBtnHtml()}</div>
+    <div class="quiz-sub">${esc(w.zh)}</div>
+    <div class="options" id="opts">
+      ${opts.map(o=>`<button type="button" data-v="${escAttr(o)}">${esc(o)}</button>`).join('')}
+    </div>
+    <div class="explain" id="explain">选一个同义替换</div>
+    <div class="solo-actions hidden" id="contBar">
+      <button type="button" class="btn-sec" id="cont" style="background:var(--accent);color:#0b1220;border:0;border-radius:14px;padding:15px;font-weight:700;width:100%">下一题</button>
+    </div>`);
+  wireSay(w.w);
+  $('#opts').onclick=(e)=>{
+    const b=e.target.closest('button');
+    if(!b||quizLocked) return;
+    quizLocked=true;
+    const ok=b.dataset.v===correct;
+    [...$('#opts').children].forEach(btn=>{
+      btn.disabled=true;
+      if(btn.dataset.v===correct) btn.classList.add('ok');
+      else if(btn===b&&!ok) btn.classList.add('no');
+    });
+    if(ok){ stats.known++; markKnown(w.w,true); afterQuiz(true,w,`<strong>对了</strong> · 还可以：${esc(w.syn||correct)}`); }
+    else { stats.again++; markKnown(w.w,false); afterQuiz(false,w,`<strong>不对</strong> · 同义替换是：<strong>${esc(w.syn||correct)}</strong>`); }
+  };
+}
+
+function render(){
+  if(mode==='flash') renderFlash();
+  else if(mode==='en2zh') renderEn2Zh();
+  else renderSyn();
+}
+
+document.querySelectorAll('.tabs button').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    mode=btn.dataset.mode;
+    resetQueue(true);
+    render();
+  };
+});
+deckSel.onchange=()=>{
+  deckId=deckSel.value;
+  localStorage.setItem(LS_DECK,deckId);
+  resetQueue(true);
+  render();
+};
+
+try{
+  if(!DECKS.length) throw new Error('词表为空');
+  fillDeckSelect();
+  resetQueue(true);
+  render();
+  boot.classList.add('hidden');
+}catch(err){
+  boot.innerHTML='<strong>加载失败：</strong>'+esc(err.message)+'<br>请用 Safari / Chrome 重新打开本文件。';
+}
+</script>
+</body>
+</html>
